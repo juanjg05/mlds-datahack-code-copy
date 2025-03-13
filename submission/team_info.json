@@ -1,0 +1,30 @@
+{
+    "team_number": 2,
+    "team_name": "Meters",
+    "team_members": [
+        {
+            "name": "Tanner Jackson",
+            "discord_username": "lovemath",
+            "eid": "twj393",
+            "email": "twjackson2006@gmail.com"
+        },
+        {
+            "name": "Brendan Ryan",
+            "discord_username": "brendan99",
+            "eid": "bpr663",
+            "email": "frogbrendan@gmail.com"
+        },
+        {
+            "name": "Matthew Bullies",
+            "discord_username": "math03403",
+            "eid": "mb69378",
+            "email": "matthew.builes8@gmail.com"
+        },
+        {
+            "name": "Juan Garcia",
+            "discord_username": "juanjgarcia05",
+            "eid": "jjg5429",
+            "email": "juanjgarcia05@gmail.com"
+        }
+    ]
+}

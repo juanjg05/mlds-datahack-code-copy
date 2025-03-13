@@ -1,0 +1,100 @@
+---
+title: "Datahack2025"
+author: "Brendan Ryan"
+date: "2025-03-08"
+output: html_document
+---
+
+```{r setup, include=lFALSE}
+#Working Directory, Library Imports, and Other Misc. Handling
+setwd("C:/Users/frogb/Downloads")
+WeatherData <- read.csv("training_data.csv")
+library(ggplot2)
+library(dplyr)
+head(WeatherData)
+WeatherData$city <- as.factor(WeatherData$city)
+
+# Create The Box Plots of Wind Speed by Location
+ggplot(WeatherData, aes(x = city, y = windspeed, fill = city)) +
+  geom_boxplot() +
+  theme_minimal() +
+  labs(title = "Wind Speed Distribution by Location", x = "Location", y = "Wind Speed") +
+  theme(legend.position = "none")
+
+# Create a Scatter Plot of Wind Speed vs. Damage by Location
+ggplot(WeatherData, aes(x = windspeed, y = damage, color = city)) +
+  geom_point(alpha = 0.6, size = 3) +
+  theme_minimal() + 
+  labs(title = "Wind Speed vs. Damage by Location", 
+       x = "Wind Speed", 
+       y = "Damage", 
+       color = "Location") +
+  theme(legend.position = "right")
+
+#Filter Data Sets into Safe, Risk, and Extreme Zones based on Wind Speed, only for GANopolis
+SafeZone <- WeatherData %>% filter(windspeed < 0.4 & city == "GANopolis")
+RiskZone <- WeatherData %>% filter(windspeed >= 0.4 & windspeed < 0.5 & city == "GANopolis")
+ExtremeZone <- WeatherData %>% filter(windspeed >= 0.5 & city == "GANopolis" )
+
+#Create Scatter Plot for each of the Zones
+ggplot(SafeZone, aes(x = windspeed, y = damage)) +
+  geom_point(alpha = 0.6, size = 3) +
+  theme_minimal() +
+  labs(title = "Wind Speed vs. Damage for GANoplolis (Safe Zone)", 
+       x = "Wind Speed", 
+       y = "Damage", 
+       color = "City") + geom_smooth(method = "lm", se = FALSE, color = "blue")
+
+ggplot(RiskZone, aes(x = windspeed, y = damage)) +
+  geom_point(alpha = 0.6, size = 3) +
+  theme_minimal() +
+  labs(title = "Wind Speed vs. Damage for GANoplolis (Risk Zone)", 
+       x = "Wind Speed", 
+       y = "Damage", 
+       color = "City") + geom_smooth(method = "lm", se = FALSE, color = "blue")
+
+ggplot(ExtremeZone, aes(x = windspeed, y = damage)) +
+  geom_point(alpha = 0.6, size = 3) +
+  theme_minimal() +
+  labs(title = "Wind Speed vs. Damage for GANoplolis (Extreme Zone)", 
+       x = "Wind Speed", 
+       y = "Damage", 
+       color = "City") + geom_smooth(method = "lm", se = FALSE, color = "blue")
+
+# Fit the linear regression model for Safe Zone
+lm_model <- lm(damage ~ windspeed, data = SafeZone)
+
+# Extract coefficients
+coefficients <- coef(lm_model)
+intercept <- coefficients[1]
+slope <- coefficients[2]
+
+# Print the equation
+equation <- paste0("Damage = ", round(intercept, 2), " + ", round(slope, 2), " * Wind Speed")
+print(equation)
+
+#Fit the linear regression model for Risk Zone
+lm_model <- lm(damage ~ windspeed, data = RiskZone)
+
+# Extract coefficients
+coefficients <- coef(lm_model)
+intercept <- coefficients[1]
+slope <- coefficients[2]
+
+# Print the equation
+equation <- paste0("Damage = ", round(intercept, 2), " + ", round(slope, 2), " * Wind Speed")
+print(equation)
+
+# Fit the linear regression model for Extreme Zone
+lm_model <- lm(damage ~ windspeed, data = ExtremeZone)
+
+# Extract coefficients
+coefficients <- coef(lm_model)
+intercept <- coefficients[1]
+slope <- coefficients[2]
+
+# Print the equation
+equation <- paste0("Damage = ", round(intercept, 2), " + ", round(slope, 2), " * Wind Speed")
+print(equation)
+```
+
